@@ -1,28 +1,17 @@
 #!/usr/bin/python
 
 import sys
-
-def main():
-    # print command line arguments
-    path_batch = sys.argv[1]
-    path_stream = sys.argv[1]
-    path_stream = sys.argv[1]
-    for arg in sys.argv[1:]:
-        print arg
-
-if __name__ == "__main__":
-    main()
-
-
-
-'''Detects suspicious transactions'''
-from Graph import Graph
 from Payments import Payments
 
-path_trans = '../insight_testsuite/tests/test-2-paymo-trans/'   # The root folder for transaction files
-payments = Payments(path_trans=path_trans)
+def main():
+    path_batch = sys.argv[1]
+    path_stream = sys.argv[2]
+    path_output1 = sys.argv[3]
+    path_output2 = sys.argv[4]
+    path_output3 = sys.argv[5]
 
-print payments.graph.to_string()
-print payments.graph.shortest_path_distance(node_id1=1, node_id2=6)
-print payments.graph.to_string()
-payments.process_stream_all_lines()
+    payments = Payments(path_batch, path_stream, path_output1, path_output2, path_output3)
+    payments.process_stream_all_lines()     # Processes all lines in the stream file and writes the results to the
+                                            # three output files
+if __name__ == "__main__":
+    main()

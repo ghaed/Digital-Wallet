@@ -45,14 +45,15 @@ class Graph(object):
         """
         return node_id in self.nodes
 
-    def shortest_path_distance(self, node_id1, node_id2):
+    def shortest_path_distance(self, node_id1, node_id2, max_level=4):
         """ Calculates the distance between two nodes. Uses a breadth-first-search algorithm with queue data structure
         Args:
             node_id1 (int): First node
             node_id2 (int): Second node
+            max_level (int): Maximum level the breadth-first-search will search form
 
         Returns:
-            int: distance between node_id1 and node_id2. If there is no path, returns -1
+            int: distance between node_id1 and node_id2. If there is no path or distance>max_layer, returns -1
         """
         self.clear_bfs()
         q = Queue.Queue()   # Stores the FIFO list of items to search in a breadth-first search
@@ -66,6 +67,8 @@ class Graph(object):
                     self.nodes[edge].is_explored = True
                     self.nodes[edge].layer = self.nodes[node_id].layer + 1
                     q.put(edge)
+                    if self.nodes[edge].layer > max_level:
+                        return -1
                     if edge == node_id2:    # If breadth-first-search reaches node_id2, stop the search and return
                         return self.nodes[node_id2].layer
         return -1

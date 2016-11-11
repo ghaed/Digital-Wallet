@@ -5,16 +5,19 @@ class Payments(object):
     """ Generic class serving as a wrapper around the Graph class and encapsulates the functions dealing with
     payments"""
 
-    def __init__(self, path_trans):
+    def __init__(self, path_batch, path_stream, path_output1, path_output2, path_output3):
         """ Constructor; also loads up the graph; also opens all file handles"""
+        print bcolors.WARNING + "***Loading the batch payment file into a graph***" + bcolors.ENDC
         self.graph = Graph()
-        self.f_batch = open(path_trans + 'paymo_input/batch_payment.txt')  # File handle for the batch file
-        self.f_stream = open(path_trans + 'paymo_input/stream_payment.txt')  # File handle for the stream file
-        self.f_output1 = open(path_trans + 'paymo_output/output1.txt', 'w')  # File handle for output1
-        self.f_output2 = open(path_trans + 'paymo_output/output2.txt', 'w')  # File handle for output2
-        self.f_output3 = open(path_trans + 'paymo_output/output3.txt', 'w')  # File handle for output3
+        self.f_batch = open(path_batch)  # File handle for the batch file
+        self.f_stream = open(path_stream)  # File handle for the stream file
+        self.f_output1 = open(path_output1,'w')  # File handle for output1
+        self.f_output2 = open(path_output2,'w')  # File handle for output2
+        self.f_output3 = open(path_output3,'w')  # File handle for output3
         self.load_graph()  # Load the graph from the batch_payment file
         self.f_stream.readline()  # Skip the first line
+        print bcolors.OKGREEN + "***Done initializing the payment graph***" + bcolors.ENDC
+
 
     def load_graph(self):
         """ Method to load up the graph from the batch file"""
@@ -76,11 +79,24 @@ class Payments(object):
 
     def process_stream_all_lines(self):
         """ Processes all lines of the stream. Wrapper around similar function that does one line only"""
+        count = 0
         line_process_success = True
         while line_process_success:
+            count += 1
             line_process_success = self.process_stream_one_line()
+            if count % 10 == 0:
+                print bcolors.OKBLUE + "> Processed", count, 'lines of the stream_payment file so far' + bcolors.ENDC
+
         self.f_batch.close()
         self.f_stream.close()
         self.f_output1.close()
         self.f_output2.close()
         self.f_output3.close()
+
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
