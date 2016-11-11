@@ -1,20 +1,3 @@
-#!/usr/bin/python
-
-import sys
-
-def main():
-    # print command line arguments
-    path_batch = sys.argv[1]
-    path_stream = sys.argv[1]
-    path_stream = sys.argv[1]
-    for arg in sys.argv[1:]:
-        print arg
-
-if __name__ == "__main__":
-    main()
-
-
-
 '''Detects suspicious transactions'''
 from Graph import Graph
 from Payments import Payments
