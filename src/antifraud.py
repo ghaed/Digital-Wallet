@@ -17,5 +17,6 @@ for line in lines_batch[1:]:    # Sweep the batch file and construct the graph n
     g.add_edge(node_ids[0], node_ids[1])
 
 
-
+print g.to_string()
+print g.shortest_path_distance(node_id1=1, node_id2=6)
 print g.to_string()
